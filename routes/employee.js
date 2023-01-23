@@ -70,4 +70,13 @@ router.delete('/employee/:id', (req, resp, next) => {
   });
 });
 
+/* Delete all employees*/
+router.delete('/employees', (req, resp, next) => {
+
+  connection.query('DELETE FROM employees ', (err, res) => {
+    if (err) return next(err);
+
+    resp.send(res);
+  });
+});
 module.exports = router;
