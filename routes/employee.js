@@ -8,7 +8,7 @@ router.get('/employees', function(req, resp, next) {
   connection.query('SELECT * FROM employees', (err, res) => {
     if (err) return next(err);
 
-    resp.send(res);
+    resp.json(res);
   });
   
 });
@@ -18,7 +18,13 @@ router.get('/employee/:id', (req, resp, next) => {
   connection.query('SELECT * FROM employees WHERE id = ?', [req.params.id], (err, res) => {
     if (err) return next(err);
 
-    resp.send(res);
+    resp.json(
+      {
+        id:res[0].id,
+        name: res[0].name,
+        role: res[0].role
+      }
+    );
   });
 });
 
@@ -32,7 +38,7 @@ router.post('/employee', (req, resp, next) => {
     (err, res) => {
       if (err) return next(err);
 
-      resp.send(res);
+      resp.json(res);
     }
   );
 });
@@ -54,7 +60,7 @@ router.put('/employee/:id', (req, resp, next) => {
         if (err) return next(err);
 
         if (index === records.length - 1) 
-        resp.send(res);
+        resp.json(res);
       }
     )
   });
@@ -66,7 +72,7 @@ router.delete('/employee/:id', (req, resp, next) => {
   connection.query('DELETE FROM employees WHERE id=?', [req.params.id], (err, res) => {
     if (err) return next(err);
 
-    resp.send(res);
+    resp.json(res);
   });
 });
 
@@ -76,7 +82,7 @@ router.delete('/employees', (req, resp, next) => {
   connection.query('DELETE FROM employees ', (err, res) => {
     if (err) return next(err);
 
-    resp.send(res);
+    resp.json(res);
   });
 });
 module.exports = router;
